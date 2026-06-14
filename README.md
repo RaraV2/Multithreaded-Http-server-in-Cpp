@@ -62,28 +62,27 @@ The server uses a dedicated listener thread to accept incoming connections and s
 └── README.md
 ```
 
-## Build Requirements
-
-* C++20 compiler
-* CMake 3.16+
-* OpenSSL
+## Build
 
 ### Arch Linux
 
 ```bash
-sudo pacman -S --needed base-devel cmake openssl
+sudo pacman -S --needed base-devel openssl
 ```
 
-### Build
+```bash
+g++ -std=c++20 -pthread -Wall -Wextra \
+server.cc \
+Http-Server/http_services.cc \
+internal/Header/headers.cc \
+internal/Request/request.cc \
+internal/Response/response.cc \
+-o server \
+-lssl -lcrypto
+```
 
 ```bash
-git clone <repo-url>
-cd CPP-Multithreaded-HTTP-Server
-
-cmake -B build
-cmake --build build
-
-./build/server
+./server
 ```
 
 ## Third-Party Libraries

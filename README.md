@@ -122,25 +122,9 @@ constexpr int PORT = 8080;
 
 ## Available Routes
 
-### GET /
-
-Health check endpoint.
-
-```bash
-curl http://localhost:42069/
-```
-
-Response:
-
-```text
-Server is running
-```
-
----
-
 ### GET /myproblem
 
-Returns a predefined response.
+Returns a custom **500 Internal Server Error** page.
 
 ```bash
 curl http://localhost:42069/myproblem
@@ -150,11 +134,54 @@ curl http://localhost:42069/myproblem
 
 ### GET /yourproblem
 
-Returns a predefined response.
+Returns a custom **400 Bad Request** page.
 
 ```bash
 curl http://localhost:42069/yourproblem
 ```
+
+---
+
+### GET /httpbin/stream/{n}
+
+Fetches a streaming response from httpbin.org and forwards it to the client using **HTTP chunked transfer encoding**.
+
+Example:
+
+```bash
+curl http://localhost:42069/httpbin/stream/100
+```
+
+This endpoint demonstrates:
+
+* Fetching data from another server
+* Streaming responses
+* Chunked transfer encoding
+* Sending data to the client as it arrives
+
+---
+
+### GET /httpbin/html
+
+Fetches the `/html` endpoint from httpbin.org and forwards it using **chunked transfer encoding** with **HTTP trailers**.
+
+Example:
+
+```bash
+curl --raw http://localhost:42069/httpbin/html
+```
+
+Trailer headers included:
+
+* `X-Content-Length`
+* `X-Content-SHA256`
+
+This endpoint demonstrates:
+
+* Chunked transfer encoding
+* HTTP trailers
+* Streaming HTML content
+* SHA-256 integrity verification
 
 ---
 
@@ -166,36 +193,40 @@ Streams an MP4 video file to the client.
 curl http://localhost:42069/video --output video.mp4
 ```
 
-The response is streamed and can be played by any compatible media player after download.
+The downloaded file can be played by any compatible media player.
+
+You can also open the endpoint directly in a browser:
+
+```text
+http://localhost:42069/video
+```
+
+Most modern browsers will automatically play the video or provide built-in playback controls.
 
 ---
 
-### GET /httpbin/stream/100
+### Any Other Route
 
-Proxies a streaming response from httpbin.org and forwards it to the client using HTTP chunked transfer encoding.
+Any route that does not match one of the endpoints above returns a custom **200 OK** HTML page.
 
-```bash
-curl http://localhost:42069/httpbin/stream/100
-```
-
-This endpoint demonstrates:
-
-- Fetching data from another server
-- Streaming responses
-- Chunked transfer encoding
-- Sending data to the client as it arrives
-
----
-
-## Example
+Example:
 
 ```bash
-curl http://localhost:42069/
-curl http://localhost:42069/myproblem
-curl http://localhost:42069/yourproblem
-curl http://localhost:42069/httpbin/stream/100
-curl http://localhost:42069/video --output video.mp4
+curl http://localhost:42069/hello
 ```
+
+Response:
+
+```html
+<html>
+<head><title>200 OK</title></head>
+<body>
+<h1>Success!</h1>
+<p>Your request was an absolute banger.</p>
+</body>
+</html>
+```
+
 
 ## Third-Party Libraries
 

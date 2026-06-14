@@ -75,7 +75,7 @@ The server uses a dedicated listener thread to accept incoming connections and s
 ├── assets/
 │   └── vim.mp4
 │
-└── third_party/
+└── 3rd-party-library/
     └── httplib.h
 ```
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(
-    Multithreaded_http_server_in_cpp
+    cpp_multithreaded_http_server
     VERSION 1.0
     DESCRIPTION "Multithreaded HTTP/1.1 Server in C++"
     LANGUAGES CXX
@@ -11,32 +11,32 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Find OpenSSL on the system
 find_package(OpenSSL REQUIRED)
 
-# Define the executable and its source files with corrected paths
+# The executable definition matching your repository paths
 add_executable(server
     httpserver/server.cc
-    internal/header/headers.cc
-    internal/request/request.cc
+    internal/headers/headers.cc
+    internal/requests/request.cc
     internal/response/response.cc
-    internal/server_services/http_services.cc
+    internal/server_services/server_services.cc
 )
 
-# Specify include directories so files can find headers easily
+# Corrected include paths to use 3rd-party-library
 target_include_directories(server PRIVATE
-    .
-    3rd-party-library
-)
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rd-party-library
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal/headers
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal/requests
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal/response
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal/server_services)
 
-# Compiler warnings and options
 target_compile_options(server PRIVATE
     -Wall
     -Wextra
     -pthread
 )
 
-# Link external libraries
 target_link_libraries(server PRIVATE
     OpenSSL::SSL
     OpenSSL::Crypto

@@ -95,7 +95,7 @@ sudo pacman -S --needed base-devel cmake openssl
 
 ```bash
 git clone <repo-url>
-cd CPP-Multithreaded-HTTP-Server
+cd Multithreaded-Http-server-in-Cpp
 
 cmake -B build
 cmake --build build
